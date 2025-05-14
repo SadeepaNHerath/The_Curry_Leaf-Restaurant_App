@@ -62,6 +62,7 @@ class _FoodCardState extends State<FoodCard>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final width = widget.isFeatured ? screenWidth * 0.7 : screenWidth * 0.6;
+    final double cardHeight = screenHeight * 0.36;
 
     return AnimatedBuilder(
       animation: _scaleAnimation,
@@ -75,6 +76,7 @@ class _FoodCardState extends State<FoodCard>
               onExit: (_) => _onHover(false),
               child: Container(
                 width: width,
+                height: cardHeight,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(AppTheme.largeRadius),
@@ -96,67 +98,86 @@ class _FoodCardState extends State<FoodCard>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildFoodImage(screenWidth, screenHeight),
-                    Padding(
-                      padding: const EdgeInsets.all(AppTheme.defaultPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  widget.food.name,
-                                  style: GoogleFonts.dmSerifDisplay(
-                                    fontSize: screenWidth * 0.05,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                            10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    widget.food.name,
+                                    style: GoogleFonts.dmSerifDisplay(
+                                      fontSize:
+                                          screenWidth * 0.042,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppTheme.textPrimaryColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                _buildRatingBadge(),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+
+                            Expanded(
+                              child: Text(
+                                widget.food.description.length > 50
+                                    ? '${widget.food.description.substring(0, 50)}...'
+                                    : widget.food.description,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      fontSize: 11,
+                                    ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Rs. ${widget.food.price}',
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimaryColor,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              _buildRatingBadge(),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            widget.food.description.length > 60
-                                ? '${widget.food.description.substring(0, 60)}...'
-                                : widget.food.description,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Rs. ${widget.food.price}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.primaryColor,
-                                  fontSize: screenWidth * 0.045,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.add_circle,
-                                  color: AppTheme.primaryColor,
-                                  size: 28,
-                                ),
-                                style: IconButton.styleFrom(
-                                  backgroundColor:
-                                      AppTheme.primaryColor.withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    color: AppTheme.primaryColor,
+                                    fontSize:
+                                        screenWidth * 0.038,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.add_circle,
+                                      color: AppTheme.primaryColor,
+                                      size: 22,
+                                    ),
+                                    style: IconButton.styleFrom(
+                                      backgroundColor: AppTheme.primaryColor
+                                          .withOpacity(0.1),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -182,7 +203,7 @@ class _FoodCardState extends State<FoodCard>
             ),
             child: Image.asset(
               widget.food.imagePath,
-              height: screenHeight * 0.18,
+              height: screenHeight * 0.15,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -192,7 +213,7 @@ class _FoodCardState extends State<FoodCard>
           top: 12,
           right: 12,
           child: Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(6),
             decoration: const BoxDecoration(
               color: Colors.black38,
               shape: BoxShape.circle,
@@ -200,7 +221,7 @@ class _FoodCardState extends State<FoodCard>
             child: const Icon(
               Icons.favorite_border,
               color: Colors.white,
-              size: 22,
+              size: 18,
             ),
           ),
         ),
@@ -209,16 +230,17 @@ class _FoodCardState extends State<FoodCard>
             top: 12,
             left: 12,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: AppTheme.accentColor,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: const Text(
                 'Featured',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -230,10 +252,11 @@ class _FoodCardState extends State<FoodCard>
 
   Widget _buildRatingBadge() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(
+          horizontal: 6, vertical: 3),
       decoration: BoxDecoration(
         color: Colors.amber.shade100,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -241,15 +264,15 @@ class _FoodCardState extends State<FoodCard>
           const Icon(
             Icons.star,
             color: Colors.amber,
-            size: 16,
+            size: 14,
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 2),
           Text(
             widget.food.rating,
             style: TextStyle(
               color: Colors.amber.shade900,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 12,
             ),
           ),
         ],

@@ -32,16 +32,16 @@ The app showcases a variety of popular dishes:
 ## Screenshots
 
 ### Intro Screen
-
+![curry1](https://github.com/user-attachments/assets/ba7d26ec-87c6-4134-9204-11c6db6c9f5d)
 
 ### Menu Screen
-
+![curry2](https://github.com/user-attachments/assets/44a7289a-d55b-40b7-a499-5ec1fb6a61fe) ![curry22](https://github.com/user-attachments/assets/378e6a55-1843-4c05-ac2f-5002d0288fe0)
 
 ### Food Details
-
+![curry3](https://github.com/user-attachments/assets/4c4b6cb2-542c-40c4-8212-43bb822267c4)
 
 ### Cart Screen
-
+![curry4](https://github.com/user-attachments/assets/0704270a-0181-4b1c-b537-ecf7533f9e28)
 
 ## Getting Started
 
